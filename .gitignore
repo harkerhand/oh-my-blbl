@@ -21,3 +21,4 @@ signing.local.properties
 *.aab
 .idea
 .kotlin
+.gradle-user

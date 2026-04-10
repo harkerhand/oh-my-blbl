@@ -325,6 +325,7 @@ fun PinkInput(
     onValueChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
+    fontSizeSp: Int = 14,
 ) {
     OutlinedTextField(
         value = value,
@@ -332,7 +333,14 @@ fun PinkInput(
         modifier = modifier,
         singleLine = true,
         shape = RoundedCornerShape(22.dp),
-        placeholder = { Text(placeholder, color = BlblTextSoft) },
+        textStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = fontSizeSp.sp),
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = BlblTextSoft,
+                style = MaterialTheme.typography.bodyMedium.copy(fontSize = fontSizeSp.sp),
+            )
+        },
         colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
             unfocusedContainerColor = BlblSurface.copy(alpha = 0.92f),
             focusedContainerColor = BlblSurface,

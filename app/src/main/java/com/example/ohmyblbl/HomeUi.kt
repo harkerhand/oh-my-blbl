@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
@@ -749,6 +751,12 @@ fun UpManagerScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             SecondaryHeader(title = "UP 分组管理", onBack = onBack)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
             UpGroupSection(
                 title = "置顶",
                 ups = pinnedUps,
@@ -769,6 +777,7 @@ fun UpManagerScreen(
             )
         }
     }
+}
 }
 
 @Composable
@@ -797,17 +806,31 @@ private fun UpGroupSection(
                 .padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text("$title (${ups.size})", color = BlblText, fontWeight = FontWeight.Bold)
-            PinkInput(
-                value = keyword,
-                onValueChange = { keyword = it },
-                placeholder = "搜索 $title 中的 UP",
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    text = "$title (${ups.size})",
+                    color = BlblText,
+                    fontWeight = FontWeight.Bold,
+                )
+                PinkInput(
+                    value = keyword,
+                    onValueChange = { keyword = it },
+                    placeholder = "搜索",
+                    fontSizeSp = 12,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(44.dp),
+                )
+            }
             if (filtered.isEmpty()) {
                 Text("没有匹配项", color = BlblTextSoft)
             } else {
                 LazyColumn(
-                    modifier = Modifier.heightIn(max = 220.dp),
+                    modifier = Modifier.heightIn(max = 210.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(filtered, key = { it.mid }) { up ->
@@ -828,11 +851,12 @@ private fun UpStatusRow(
     up: UpItem,
     status: UpGroupStatus,
     onSetStatus: (UpGroupStatus) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         color = BlblSurfaceAlt,
         shape = RoundedCornerShape(18.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier
