@@ -55,8 +55,11 @@ jobs:
           test -n "$RELEASE_KEY_ALIAS"
           test -n "$RELEASE_KEY_PASSWORD"
 
+      - name: Grant Gradle wrapper execute permission
+        run: chmod +x gradlew
+
       - name: Build release APK
-        run: ./gradlew :app:assembleRelease --no-daemon
+        run: bash ./gradlew :app:assembleRelease --no-daemon
 
       - name: Create GitHub release and upload APK
         uses: softprops/action-gh-release@v2
